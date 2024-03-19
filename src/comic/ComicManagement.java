@@ -170,7 +170,7 @@ public class ComicManagement {
         }
     }
     System.out.println("ComicException: Comic with ID " + id + " cannot be found in the comic list.");
-    showComicList();
+//    showComicList();
     return this.numberofComics;
 }
 
@@ -181,6 +181,7 @@ public void UpdateTextFile() {
         String[] data = {"Line 1", "Line 2", "Line 3"};
         int id, volume;
         String title, author;
+        double rentalPrice;
         // Đường dẫn tới tệp văn bản
         String filePath = "comicList_filePath";
 
@@ -192,16 +193,23 @@ public void UpdateTextFile() {
 
             // Nhập các dữ liệu từ mảng vào từng dòng trong tệp văn bản
             BufferedWriter writer = new BufferedWriter(new FileWriter(this.comicList_filePath, true));
-            writer.write(numberofComics);
-            for (ComicBook line : this.comicList) {
-                result += String.format("%d\n",line.getId()) ;
-                result += String.format("%s\n",line.getTitle());
-                result += String.format("%s\n",line.getRentalPrice());
-                result += String.format("%s\n",line.getAuthor());
-                result += String.format("%s\n", line.getVolume());
-                writer.write(result);
-                writer.newLine(); // Thêm ký tự xuống dòng
+            result += String.format("%d\n",this.numberofComics);
+            for (ComicBook comicBook : this.comicList) {
+                id = comicBook.getId();
+            title = comicBook.getTitle();
+            rentalPrice = comicBook.getRentalPrice();
+            author = comicBook.getAuthor();
+            volume = comicBook.getVolume();
+            
+                result += String.format("%d\n",id) ;
+                result += String.format("%s\n",title);
+                result += String.format("%.2f\n",rentalPrice);
+                result += String.format("%s\n",author);
+                result += String.format("%s\n",volume);
+               
             }
+             writer.write(result);
+                writer.newLine(); // Thêm ký tự xuống dòng
             writer.close();
 
             System.out.println("Data has been updated in the text file successfully.");

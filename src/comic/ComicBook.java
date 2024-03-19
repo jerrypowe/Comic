@@ -52,12 +52,12 @@ public class ComicBook {
         return rentalPrice;
     }
 
-    public void setRentalPrice(double rentalPrice) throws ComicException {
-        if (rentalPrice <= 0 || rentalPrice >= 1000) {
-            throw new ComicException("Rental Price must be a positive number less than 1000.");
-        } else {
+    public void setRentalPrice(double rentalPrice) {
+//        if (rentalPrice <= 0 || rentalPrice >= 1000) {
+//            throw new ComicException("Rental Price must be a positive number less than 1000.");
+//        } else {
             this.rentalPrice = rentalPrice;
-        }
+//        }
     }
 
     public String getAuthor() {

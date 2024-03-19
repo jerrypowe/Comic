@@ -52,7 +52,7 @@ public class Main {
             try {
                 System.out.print(message);
                 input = Integer.parseInt(sc.nextLine());
-                if (input <= 0 || input >= 1000) {
+                if (input <= 0 || input >= 9999) {
                     throw new Exception();
                 }
                 else
@@ -125,11 +125,11 @@ public class Main {
         }
         return String.valueOf(chars);
     }
-    public int searchNewId() {
+   public int searchNewId() {
         boolean checkID = false;
         int nid;
         int id = 0;
-        for ( nid = 0 ;  nid < comicList.get(comicList.size()).getId(); nid ++){
+        for ( nid = 0 ;  nid < comicList.get(comicList.size()-1).getId(); nid ++){
         for (ComicBook comic : this.comicList) {
             if (comic.getId() != nid) {             
                 checkID = true;
@@ -139,11 +139,114 @@ public class Main {
         }
         }
         if (!checkID) {
-            id = (comicList.get(comicList.size()).getId()) + 1 ;
+            id = (comicList.get(comicList.size()-1).getId()) + 1 ;
         }       
     
     return id;
     }
+   public  void SearchTitle(){
+       String Title;
+       Title = getString("Enter Title of the comic: ", "Accept a string with at least 1 visible character and at most 33 visible characters! Please try again.");
+       int b = 0;
+       int a = 0;
+       ArrayList<String> showInfo = new ArrayList<>();
+       ArrayList<ComicBook> CM = new ArrayList<>();
+       for( int i = 0 ; i < comicList.size();i++){
+           if(comicList.get(i).getTitle().contains(Title)==true){
+               b = 1;
+               
+               CM.add(comicList.get(i));
+               
+           }
+       }
+       if(b==0){
+           System.out.println("Not Found title. Please enter another title!");
+       }else{
+        String wall = "|";
+        int id, volume;
+        String title, author;
+        double rentalPrice;
+        showInfo.add("+-------+-------------------------------------+---------------+-------------------------------------+--------+");
+        showInfo.add("| ID    | Title                               | Rental Price  | Author                              | Volume |");               
+        showInfo.add("+-------+-------------------------------------+---------------+-------------------------------------+--------+");
+        for (ComicBook comicBook : CM ) {
+            id = comicBook.getId();
+            title = comicBook.getTitle();
+            rentalPrice = comicBook.getRentalPrice();
+            author = comicBook.getAuthor();
+            volume = comicBook.getVolume();
+            
+            showInfo.add(String.format(wall + "  %04d " + wall + " %-33s   " + wall + "      %6.2f $ " + wall + " %-33s   " + wall + "   %4d " + wall, id, title, rentalPrice, author, volume));
+        }                                                                
+        showInfo.add("+-------+-------------------------------------+---------------+-------------------------------------+--------+");
+        showInfo.add(String.format("| TOTAL | %-4d entry(s)                                                                                      |", CM.size()));
+        showInfo.add("+-------+-------------------------------------+---------------+-------------------------------------+--------+");
+    
+        for (String info : showInfo) {
+            System.out.println(info);
+        }
+       }
+   }
+   public void SearchAuthor(){
+       String Author;
+       Author = getString("Please enter Author's name: ","Accept a string with at least 1 visible character and at most 30 visible characters! Please try again.");
+       int b = 0;
+       int a = 0;
+       ArrayList<String> showInfo = new ArrayList<>();
+       ArrayList<ComicBook> CM = new ArrayList<>();
+       for( int i = 0 ; i < comicList.size();i++){
+           if(comicList.get(i).getAuthor().toLowerCase().equals(Author.toLowerCase())==true){
+               b = 1;
+               
+               CM.add(comicList.get(i));
+               
+           }
+       }
+       if(b==0){
+           System.out.println("Not Found Author's name. Please enter another Author's name!");
+       }else{
+        String wall = "|";
+        int id, volume;
+        String title, author;
+        double rentalPrice;
+        showInfo.add("+-------+-------------------------------------+---------------+-------------------------------------+--------+");
+        showInfo.add("| ID    | Title                               | Rental Price  | Author                              | Volume |");               
+        showInfo.add("+-------+-------------------------------------+---------------+-------------------------------------+--------+");
+        for (ComicBook comicBook : CM ) {
+            id = comicBook.getId();
+            title = comicBook.getTitle();
+            rentalPrice = comicBook.getRentalPrice();
+            author = comicBook.getAuthor();
+            volume = comicBook.getVolume();
+            
+            showInfo.add(String.format(wall + "  %04d " + wall + " %-33s   " + wall + "      %6.2f $ " + wall + " %-33s   " + wall + "   %4d " + wall, id, title, rentalPrice, author, volume));
+        }                                                                
+        showInfo.add("+-------+-------------------------------------+---------------+-------------------------------------+--------+");
+        showInfo.add(String.format("| TOTAL | %-4d entry(s)                                                                                      |", CM.size()));
+        showInfo.add("+-------+-------------------------------------+---------------+-------------------------------------+--------+");
+    
+        for (String info : showInfo) {
+            System.out.println(info);
+        }
+           
+       
+       
+}}
+   public void SetPriceRental(){
+       int id;
+       id = getInteger("Enter ID of Comic: ","Accept positive integer less than 9999 only! Please try again.");
+       double reprice;
+//       reprice = sc.nextDouble();
+       reprice = getDouble("Enter Rental Price of the comic: ", "Accept positive number less than 1000 only! Please try again.");
+       for(int i = 0; i<comicList.size()-1;i++){
+           ComicBook comic = comicList.get(i);
+           if(comic!=null&&comicList.get(i).getId()== id){
+               comicList.get(i).setRentalPrice(reprice);
+           }
+       }
+   
+   }
+  
     public void add() {
         int volume;
         int ID;
@@ -163,7 +266,7 @@ public class Main {
                 ID = searchNewId();
                 
                 ComicBook b = new ComicBook(ID, title, rentalPrice, author, volume);
-                comicList.add(b);
+//                this.comicList.add(b);
                 isValid = true;
             } catch (ComicException ex) {
                    System.out.println(ex.getMessage());
@@ -192,19 +295,25 @@ public class Main {
                 case "1":
                     add();
                     showList();
+                    comicManager.UpdateTextFile();
                     break;
                 case  "2":
+                    SearchTitle();
+                    
                    
                     break;
                 case  "3":
                     
+                    SearchAuthor();
+                  
                     break;
                 case  "4":
-                    
+                    SetPriceRental();
+                    showList();
                     break;
                 case  "5":
                    int id = 0;
-                   id = sc.nextInt();
+                   id = getInteger("Enter ID of Comic: ","Accept positive integer less than 9999 only! Please try again.");
                    comicManager.deleteComic(id);
                    comicManager.showComicList();
                    comicManager.UpdateTextFile();

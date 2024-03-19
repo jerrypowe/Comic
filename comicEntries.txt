@@ -1,17 +1,22 @@
-9
-Bay Vien Ngoc Rong
-0.54
-Akira Toriyama
-1
-
+4
 9
 Bay Vien Ngoc Rong
 0.54
 Akira Toriyama
 1
+99
+Dao Kiem Than Vuc
+23.70
+Reki Kawahara
+13
 999
 Naruto
 233.78
 Masashi Kishimoto
 999
+10
+Fairy Tail
+5.55
+Akira Toriyama
+35
 
